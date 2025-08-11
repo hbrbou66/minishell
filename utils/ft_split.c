@@ -1,5 +1,5 @@
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
 int	skip_spaces(char *s, int i)
 {

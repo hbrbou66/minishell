@@ -11,7 +11,7 @@ void	call_execve(t_exec *head, t_env *env)
 	if (stat(head->cmd, &sb) == -1)
 	{
 		perror("stat");
-		ft_malloc(0, CLEAR);
+		ft_malloc(0, CLEAR_DATA);
 		exit(errno);
 	}
 	if (S_ISDIR(sb.st_mode))
@@ -19,11 +19,11 @@ void	call_execve(t_exec *head, t_env *env)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(head->cmd, 2);
 		ft_putstr_fd(": Is a directory\n", 2);
-		ft_malloc(0, CLEAR);
+		ft_malloc(0, CLEAR_DATA);
 		exit(126);
 	}
 	perror(head->cmd);
-	ft_malloc(0, CLEAR);
+	ft_malloc(0, CLEAR_DATA);
 	exit(errno);
 }
 
@@ -48,12 +48,12 @@ pid_t	execute_cmd(t_exec *head, t_env **env)
 	pid_t	pid;
 
 	if (pipe(fd) == -1)
-		return (perror("pipe"), ft_malloc(0, CLEAR), -1);
+		return (perror("pipe"), ft_malloc(0, CLEAR_DATA), -1);
 	child_sig(head->cmd);
 	pid = fork();
 	if (pid == -1)
 		return (close(fd[0]), close(fd[1]), perror("fork"), \
-		ft_malloc(0, CLEAR), -1);
+		ft_malloc(0, CLEAR_DATA), -1);
 	if (pid == 0)
 	{
 		default_sig();
@@ -76,7 +76,7 @@ int	execution(t_exec *exec, t_env **env)
 		return (execute_builtin(exec, env, false), 1);
 	fd = dup(STDIN_FILENO);
 	if (fd == -1)
-		return (perror("dup()"), ft_malloc(0, CLEAR), 1);
+		return (perror("dup()"), ft_malloc(0, CLEAR_DATA), 1);
 	while (exec)
 	{
 		if (!exec->flag)

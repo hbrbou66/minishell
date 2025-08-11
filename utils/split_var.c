@@ -1,5 +1,5 @@
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
 t_var	*last_var(t_var *lst)
 {
@@ -44,18 +44,18 @@ t_var	*s_var(char *s)
 	t_expand	e;
 	t_var		*lst;
 
-	(1) && (e.i = 0, e.d_q = false, e.s_q = false, lst = NULL);
+	(1) && (e.i = 0, e.double_q = false, e.single_q = false, lst = NULL);
 	while (s[e.i])
 	{
 		e.b = e.i;
 		while (s[e.i])
 		{
-			if (s[e.i] == '$' && s[e.i + 1] && id_check(s + e.i + 1) && !e.s_q)
+			if (s[e.i] == '$' && s[e.i + 1] && id_check(s + e.i + 1) && !e.single_q)
 				break ;
-			if (s[e.i] == '\'' && !e.d_q)
-				(1) && (e.i++, e.s_q = !e.s_q);
-			else if (s[e.i] == '\"' && !e.s_q)
-				(1) && (e.i++, e.d_q = !e.d_q);
+			if (s[e.i] == '\'' && !e.double_q)
+				(1) && (e.i++, e.single_q = !e.single_q);
+			else if (s[e.i] == '\"' && !e.single_q)
+				(1) && (e.i++, e.double_q = !e.double_q);
 			else
 				e.i++;
 		}

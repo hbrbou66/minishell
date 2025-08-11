@@ -1,23 +1,23 @@
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
 int	dollar_case(char *s)
 {
 	int	i;
-	int	s_q;
-	int	d_q;
+	int	single_q;
+	int	double_q;
 
 	i = 0;
-	s_q = 0;
-	d_q = 0;
+	single_q = 0;
+	double_q = 0;
 	while (s[i])
 	{
-		if (s[i] == '\'' && !d_q)
-			s_q = !s_q;
-		else if (s[i] == '\"' && !s_q)
-			d_q = !d_q;
+		if (s[i] == '\'' && !double_q)
+			single_q = !single_q;
+		else if (s[i] == '\"' && !single_q)
+			double_q = !double_q;
 		else if (s[i] == '$' && s[i + 1] && ft_strchr("\'\"", s[i + 1]) \
-		&& !d_q && !s_q)
+		&& !double_q && !single_q)
 			return (1);
 		i++;
 	}

@@ -41,8 +41,8 @@ void	child_sig(char	*cmd)
 
 int	check_type_exp(t_tokentype type)
 {
-	if (type == EXPAN || type == SINGLEQ \
-		|| type == DOUBLEQ || type == WORD)
+	if (type == EXPAN || type == SINGLE_Q \
+		|| type == DOUBLE_Q || type == WORD)
 		return (1);
 	return (0);
 }

@@ -1,28 +1,28 @@
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
 int	shouldnt_split(char *v, t_tokentype type, int f)
 {
 	int		i;
-	bool	d_q;
-	bool	s_q;
+	bool	double_q;
+	bool	single_q;
 	int		operator;
 
 	i = 0;
-	d_q = false;
-	s_q = false;
+	double_q = false;
+	single_q = false;
 	operator = 0;
-	if (type == R_FILE)
+	if (type == RED_FILE)
 		return (1);
 	while (v[i])
 	{
-		if (v[i] == '\'' && !d_q)
-			s_q = !s_q;
-		if (v[i] == '\"' && !s_q)
-			d_q = !d_q;
+		if (v[i] == '\'' && !double_q)
+			single_q = !single_q;
+		if (v[i] == '\"' && !single_q)
+			double_q = !double_q;
 		if (v[i] == '$' && v[i + 1] && id_check(v + 1 + i) && operator && f)
 			return (1);
-		if (v[i] == '=' && !d_q)
+		if (v[i] == '=' && !double_q)
 			operator = 1;
 		i++;
 	}
@@ -36,20 +36,20 @@ void	ft_split_ex(t_token **lst, t_env *e, char *value, t_tokentype type)
 	int			f;
 
 	(1) && (elt = NULL, f = check_env(value, e));
-	if (!f || (f && type == R_FILE))
+	if (!f || (f && type == RED_FILE))
 	{
 		exp = exp_val(value, e);
 		(1) && (elt = ft_malloc(sizeof(t_token), ALLOC), elt->type = type);
 		(1) && (elt->value = exp, elt->next = NULL, elt->previous = NULL);
 		elt->removed = 1;
-		if (type == R_FILE)
+		if (type == RED_FILE)
 		{
 			if (!exp || !exp[0] || f)
 				elt->ambg = 1;
 		}
 		else
 			elt->ambg = 0;
-		if (type == R_FILE)
+		if (type == RED_FILE)
 			type = WORD;
 		return (ft_lstadd_back(lst, elt));
 	}

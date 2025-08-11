@@ -42,14 +42,14 @@ bool	check_assi(char *st, int index)
 
 bool	should_expand(char *s, t_expand e)
 {
-	return ((s[e.i] == '$' && !e.s_q && s[e.i + 1] \
+	return ((s[e.i] == '$' && !e.single_q && s[e.i + 1] \
 	&& !delimter(s, e.i)));
 }
 
 bool	is_invalid_dollar_after_op(t_expand_ctx *c)
 {
 	if (c->s[c->e.i] == '$' && c->s[c->e.i + 1] == '"' \
-		&& c->e.d_q)
+		&& c->e.double_q)
 		return (true);
 	return ((c->s[c->e.i] == '$' && check_assi(c->s, c->e.i)));
 }

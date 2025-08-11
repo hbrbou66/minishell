@@ -1,9 +1,9 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <signal.h>
@@ -14,20 +14,16 @@
 # include <sys/stat.h>
 
 # define SINGLE 20
-# define COUPLE 10
-# define RED_OUT 30
-# define RED_IN 31
-# define APPE 32
-# define HERED 33
+# define DOUBLE 10
 # define ALLOC 1
-# define CLEAR 2
+# define CLEAR_DATA 2
 
-typedef struct s_garbage
+typedef struct s_memory
 {
 	void				*address;
-	struct s_garbage	*next;
+	struct s_memory	*next;
 
-}	t_garbage;
+}	t_memory;
 
 typedef enum e_tokentype {
 	WORD,
@@ -36,17 +32,17 @@ typedef enum e_tokentype {
 	R_OUT,
 	APPEND,
 	HERDOC,
-	DOUBLEQ,
-	SINGLEQ,
+	DOUBLE_Q,
+	SINGLE_Q,
 	DELEMTER,
 	EXPAN,
-	R_FILE,
+	RED_FILE,
 }	t_tokentype;
-
+//----------------//
 typedef struct s_expand
 {
-	bool	s_q;
-	bool	d_q;
+	bool	single_q;
+	bool	double_q;
 	int		i;
 	int		b;
 	char	*c;
@@ -79,14 +75,14 @@ typedef struct s_exec
 	int				flag;			
 }	t_exec;
 
-typedef struct s_main_ctx
+typedef struct s_shell
 {
 	char	*input;
 	char	*expn;
 	t_token	*lst;
 	t_exec	*exec;
 	t_env	*envp;
-}	t_main_ctx;
+}	t_shell;
 
 typedef struct s_expand_ctx
 {

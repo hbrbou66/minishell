@@ -3,15 +3,15 @@
 
 bool	handle_quotes(char *s, t_expand *e)
 {
-	if (s[e->i] == '\'' && !e->d_q)
+	if (s[e->i] == '\'' && !e->double_q)
 	{
-		e->s_q = !e->s_q;
+		e->single_q = !e->single_q;
 		e->i++;
 		return (true);
 	}
-	else if (s[e->i] == '\"' && !e->s_q)
+	else if (s[e->i] == '\"' && !e->single_q)
 	{
-		e->d_q = !e->d_q;
+		e->double_q = !e->double_q;
 		e->i++;
 		return (true);
 	}
@@ -22,8 +22,8 @@ void	init_expand_vars(char **nv, t_expand *e, bool *reset)
 {
 	*nv = NULL;
 	e->i = 0;
-	e->s_q = false;
-	e->d_q = false;
+	e->single_q = false;
+	e->double_q = false;
 	*reset = true;
 }
 
@@ -51,8 +51,8 @@ void	init_expan(t_expand_ctx *ctx, char *s, t_env *envp)
 {
 	ctx->nv = NULL;
 	ctx->e.i = 0;
-	ctx->e.s_q = false;
-	ctx->e.d_q = false;
+	ctx->e.single_q = false;
+	ctx->e.double_q = false;
 	ctx->r = true;
 	ctx->envp = envp;
 	ctx->s = s;

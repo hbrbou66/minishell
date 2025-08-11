@@ -32,18 +32,18 @@ char	*remove_q(char *v)
 {
 	t_expand	s;
 
-	(1) && (s.b = 0, s.s_q = false, s.d_q = false, s.i = 0);
+	(1) && (s.b = 0, s.single_q = false, s.double_q = false, s.i = 0);
 	if (!v)
 		return (ft_strdup(""));
 	s.c = ft_malloc(ft_len_wo_q(v) + 1, ALLOC);
 	while (v[s.b])
 	{
-		if (v[s.b] == '\'' && !s.d_q)
-			(1) && (s.s_q = !s.s_q, s.b++);
-		else if (v[s.b] == '\"' && !s.s_q)
-			(1) && (s.d_q = !s.d_q, s.b++);
-		else if (v[s.b] == '$' && !s.d_q && \
-			!s.s_q && v[s.b + 1] && ft_strchr("\'\"", v[s.b + 1]))
+		if (v[s.b] == '\'' && !s.double_q)
+			(1) && (s.single_q = !s.single_q, s.b++);
+		else if (v[s.b] == '\"' && !s.single_q)
+			(1) && (s.double_q = !s.double_q, s.b++);
+		else if (v[s.b] == '$' && !s.double_q && \
+			!s.single_q && v[s.b + 1] && ft_strchr("\'\"", v[s.b + 1]))
 			s.b++;
 		else if (v[s.b] == '$' && v[s.b + 1] && v[s.b + 1] == '$')
 		{

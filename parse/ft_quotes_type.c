@@ -11,7 +11,7 @@ int	ft_check_quotes_type(char *string)
 		if (string[index] == '\'')
 			return (SINGLE);
 		if (string[index] == '\"')
-			return (COUPLE);
+			return (DOUBLE);
 		index++;
 	}
 	return (0);

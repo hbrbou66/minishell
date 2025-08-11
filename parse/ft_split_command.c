@@ -4,19 +4,19 @@
 int	ft_check_var(char	*s)
 {
 	int	index;
-	int	s_q;
-	int	d_q;
+	int	single_q;
+	int	double_q;
 
-	s_q = 0;
-	d_q = 0;
+	single_q = 0;
+	double_q = 0;
 	index = 0;
 	while (s[index])
 	{
-		if (s[index] == '\'' && !d_q)
-			s_q = !s_q;
-		if (s[index] == '\"' && !s_q)
-			d_q = !d_q;
-		if (s[index] == '$' && s[index + 1] && id_check(s + index + 1) && !s_q)
+		if (s[index] == '\'' && !double_q)
+			single_q = !single_q;
+		if (s[index] == '\"' && !single_q)
+			double_q = !double_q;
+		if (s[index] == '$' && s[index + 1] && id_check(s + index + 1) && !single_q)
 			return (1);
 		index++;
 	}
@@ -30,7 +30,7 @@ t_tokentype	ft_token_type(t_token *lst, char *string)
 	last = ft_lstlast(lst);
 	if (last && (last->type == R_IN || last->type == R_OUT \
 	|| last->type == APPEND))
-		return (R_FILE);
+		return (RED_FILE);
 	if (!string)
 		return (WORD);
 	if (ft_check_var(string))
@@ -46,9 +46,9 @@ t_tokentype	ft_token_type(t_token *lst, char *string)
 	if (ft_check_heredoc(string))
 		return (HERDOC);
 	if (ft_check_quotes_type(string) == SINGLE)
-		return (SINGLEQ);
-	if (ft_check_quotes_type(string) == COUPLE)
-		return (DOUBLEQ);
+		return (SINGLE_Q);
+	if (ft_check_quotes_type(string) == DOUBLE)
+		return (DOUBLE_Q);
 	return (WORD);
 }
 

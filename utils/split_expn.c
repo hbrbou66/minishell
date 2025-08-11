@@ -1,22 +1,22 @@
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
 size_t	skip_tillvar(char *val, size_t i)
 {
 	size_t	start;
-	bool	s_q;
-	bool	d_q;
+	bool	single_q;
+	bool	double_q;
 
 	start = i;
-	d_q = false;
-	s_q = false;
+	double_q = false;
+	single_q = false;
 	while (val[i])
 	{
-		if (val[i] == '\'' && !d_q)
-			s_q = !s_q;
-		if (val[i] == '\"' && !s_q)
-			d_q = !d_q;
-		if (val[i] == '$' && id_check(val + i + 1) && !s_q)
+		if (val[i] == '\'' && !double_q)
+			single_q = !single_q;
+		if (val[i] == '\"' && !single_q)
+			double_q = !double_q;
+		if (val[i] == '$' && id_check(val + i + 1) && !single_q)
 			break ;
 		i++;
 	}

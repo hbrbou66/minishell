@@ -38,22 +38,22 @@ size_t	ft_len_wo_quotes(t_expand_ctx *c, char *value)
 {
 	size_t	count;
 	size_t	i;
-	bool	d_q;
-	bool	s_q;
+	bool	double_q;
+	bool	single_q;
 
-	(1) && (i = 0, count = 0, d_q = c->e.d_q, s_q = c->e.s_q);
+	(1) && (i = 0, count = 0, double_q = c->e.double_q, single_q = c->e.single_q);
 	if (!value)
 		return (0);
 	while (value[i])
 	{
-		if (value[i] == '\'' && !d_q)
+		if (value[i] == '\'' && !double_q)
 		{
-			s_q = !s_q;
+			single_q = !single_q;
 			i++;
 		}
-		else if (value[i] == '\"' && !s_q)
+		else if (value[i] == '\"' && !single_q)
 		{
-			d_q = !d_q;
+			double_q = !double_q;
 			i++;
 		}
 		else
@@ -75,12 +75,12 @@ char	*ft_remove_quotes(t_expand_ctx *c, char *tmp)
 	clean = ft_malloc(ft_len_wo_quotes(c, tmp) + 1, ALLOC);
 	while (tmp[index_tmp])
 	{
-		if (tmp[index_tmp] == '\'' && !c->e.d_q)
-			(1) && (c->e.s_q = !c->e.s_q, index_tmp++);
-		else if (tmp[index_tmp] == '\"' && !c->e.s_q)
-			(1) && (c->e.d_q = !c->e.d_q, index_tmp++);
-		else if (tmp[index_tmp] == '$' && !c->e.d_q \
-			&& !c->e.s_q && ft_strchr("\'\"", tmp[index + 1]))
+		if (tmp[index_tmp] == '\'' && !c->e.double_q)
+			(1) && (c->e.single_q = !c->e.single_q, index_tmp++);
+		else if (tmp[index_tmp] == '\"' && !c->e.single_q)
+			(1) && (c->e.double_q = !c->e.double_q, index_tmp++);
+		else if (tmp[index_tmp] == '$' && !c->e.double_q \
+			&& !c->e.single_q && ft_strchr("\'\"", tmp[index + 1]))
 			index_tmp++;
 		else
 			(1) && (clean[index] = tmp[index_tmp], index_tmp++, index++);

@@ -1,5 +1,5 @@
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
 size_t	ft_strlcat(char *s1, char *s2, size_t n)
 {

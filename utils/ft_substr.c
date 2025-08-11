@@ -1,5 +1,5 @@
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
 char	*subs(char *s, unsigned int start, size_t len)
 {

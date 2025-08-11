@@ -38,7 +38,7 @@ void	cmd_not_found(char *cmd)
 		exit(0);
 	write(2, cmd, ft_strlen(cmd));
 	ft_putstr_fd(": command not found\n", 2);
-	ft_malloc(0, CLEAR);
+	ft_malloc(0, CLEAR_DATA);
 	exit(127);
 }
 
