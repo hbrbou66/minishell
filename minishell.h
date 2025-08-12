@@ -38,21 +38,6 @@ typedef enum e_tokentype {
 	EXPAN,
 	RED_FILE,
 }	t_tokentype;
-//----------------//
-typedef struct s_expand
-{
-	bool	single_q;
-	bool	double_q;
-	int		i;
-	int		b;
-	char	*c;
-}	t_expand;
-
-typedef struct s_env {
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
 
 typedef struct s_token {
 	t_tokentype		type;
@@ -65,12 +50,18 @@ typedef struct s_token {
 	int				removed;
 }	t_token;
 
+typedef struct s_env {
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct s_exec
 {
 	int				fd_in;
 	int				fd_out;
 	char			*cmd;
-	char			**opt;
+	char			**cmd_args;
 	struct s_exec	*next;
 	int				flag;			
 }	t_exec;
@@ -84,13 +75,19 @@ typedef struct s_shell
 	t_env	*envp;
 }	t_shell;
 
+typedef struct s_expand
+{
+	bool	single_q;
+	bool	double_q;
+	int		index;
+	int		start_index;
+	char	*c;
+}	t_expand;
+
 typedef struct s_expand_ctx
 {
 	char		*nv;
-	char		*sub;
-	int			b_x;
 	bool		r;
-	int			i;
 	t_expand	e;
 	t_env		*envp;
 	char		*s;
@@ -287,5 +284,5 @@ char		*ft_remove_quotes(t_expand_ctx *c, char *tmp);
 int			delimter(char *s, size_t index);
 bool		handle_quotes(char *s, t_expand *e);
 char		*remove_q(char *tmp);
-
+ 
 #endif

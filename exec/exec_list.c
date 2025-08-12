@@ -22,7 +22,7 @@ t_exec	*new_node(void)
 	ret->fd_in = 0;
 	ret->fd_out = 1;
 	ret->cmd = NULL;
-	ret->opt = NULL;
+	ret->cmd_args = NULL;
 	ret->next = NULL;
 	ret->flag = 0;
 	return (ret);

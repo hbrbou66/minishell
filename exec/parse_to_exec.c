@@ -17,9 +17,9 @@ int	count_until_pipe(t_token *lst)
 
 void	handle_word(t_token *lst, t_exec *node, int *i)
 {
-	node->opt[*i] = ft_strdup(lst->value);
+	node->cmd_args[*i] = ft_strdup(lst->value);
 	if (*i == 0)
-		node->cmd = node->opt[0];
+		node->cmd = node->cmd_args[0];
 	(*i)++;
 }
 
@@ -40,7 +40,7 @@ int	fill_node(t_token **lst, t_exec *node)
 	int		ac;
 
 	(1) && (i = 0, ac = count_until_pipe(*lst));
-	node->opt = ft_malloc(sizeof(char *) * (ac + 1), ALLOC);
+	node->cmd_args = ft_malloc(sizeof(char *) * (ac + 1), ALLOC);
 	while (*lst && (*lst)->type != PIPE)
 	{
 		if ((*lst)->type == WORD)
@@ -57,7 +57,7 @@ int	fill_node(t_token **lst, t_exec *node)
 		if (*lst && (*lst)->type != PIPE)
 			*lst = (*lst)->next;
 	}
-	return (node->opt[i] = NULL, 0);
+	return (node->cmd_args[i] = NULL, 0);
 }
 
 t_exec	*convert_token_to_exec(t_token *lst, t_env *env)

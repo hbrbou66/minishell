@@ -32,28 +32,28 @@ char	*remove_q(char *v)
 {
 	t_expand	s;
 
-	(1) && (s.b = 0, s.single_q = false, s.double_q = false, s.i = 0);
+	(1) && (s.start_index = 0, s.single_q = false, s.double_q = false, s.index = 0);
 	if (!v)
 		return (ft_strdup(""));
 	s.c = ft_malloc(ft_len_wo_q(v) + 1, ALLOC);
-	while (v[s.b])
+	while (v[s.start_index])
 	{
-		if (v[s.b] == '\'' && !s.double_q)
-			(1) && (s.single_q = !s.single_q, s.b++);
-		else if (v[s.b] == '\"' && !s.single_q)
-			(1) && (s.double_q = !s.double_q, s.b++);
-		else if (v[s.b] == '$' && !s.double_q && \
-			!s.single_q && v[s.b + 1] && ft_strchr("\'\"", v[s.b + 1]))
-			s.b++;
-		else if (v[s.b] == '$' && v[s.b + 1] && v[s.b + 1] == '$')
+		if (v[s.start_index] == '\'' && !s.double_q)
+			(1) && (s.single_q = !s.single_q, s.start_index++);
+		else if (v[s.start_index] == '\"' && !s.single_q)
+			(1) && (s.double_q = !s.double_q, s.start_index++);
+		else if (v[s.index] == '$' && !s.double_q && \
+			!s.single_q && v[s.index + 1] && ft_strchr("\'\"", v[s.index + 1]))
+			s.index++;
+		else if (v[s.index] == '$' && v[s.index + 1] && v[s.index + 1] == '$')
 		{
-			(1) && (s.c[s.i] = v[s.b], s.c[s.i + 1] = v[s.b + 1]);
-			(1) && (s.b += 2, s.i += 2);
+			(1) && (s.c[s.index] = v[s.start_index], s.c[s.index + 1] = v[s.start_index + 1]);
+			(1) && (s.start_index += 2, s.index += 2);
 		}
 		else
-			(1) && (s.c[s.i] = v[s.b], s.b++, s.i++);
+			(1) && (s.c[s.index] = v[s.start_index], s.start_index++, s.index++);
 	}
-	s.c[s.i] = '\0';
+	s.c[s.index] = '\0';
 	return (s.c);
 }
 

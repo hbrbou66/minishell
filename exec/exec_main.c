@@ -7,7 +7,7 @@ void	call_execve(t_exec *head, t_env *env)
 	struct stat	sb;
 
 	envp = convert_t_env(env);
-	execve(head->cmd, head->opt, envp);
+	execve(head->cmd, head->cmd_args, envp);
 	if (stat(head->cmd, &sb) == -1)
 	{
 		perror("stat");

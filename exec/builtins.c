@@ -49,19 +49,19 @@ int	is_builtin(char *cmd)
 void	execute_builtin(t_exec *exec, t_env **env, bool forked)
 {
 	if (!ft_strcmp(exec->cmd, "echo") && !exec->flag)
-		ft_echo(exec->opt, exec->fd_out);
+		ft_echo(exec->cmd_args, exec->fd_out);
 	else if (!ft_strcmp(exec->cmd, "cd") && !exec->flag)
-		ft_cd(exec->opt, env);
+		ft_cd(exec->cmd_args, env);
 	else if (!ft_strcmp(exec->cmd, "pwd") && !exec->flag)
 		ft_pwd(*env, exec->fd_out);
 	else if (!ft_strcmp(exec->cmd, "export") && !exec->flag)
-		ft_export(exec->opt, env, exec->fd_out);
+		ft_export(exec->cmd_args, env, exec->fd_out);
 	else if (!ft_strcmp(exec->cmd, "unset") && !exec->flag)
-		ft_unset(exec->opt, env);
+		ft_unset(exec->cmd_args, env);
 	else if (!ft_strcmp(exec->cmd, "env") && !exec->flag)
 		ft_env(*env, exec->fd_out);
 	else if (!ft_strcmp(exec->cmd, "exit") && !exec->flag)
-		ft_exec_exit(exec->opt, forked);
+		ft_exec_exit(exec->cmd_args, forked);
 	if (forked)
 		exit(e_status(0, 0));
 }
