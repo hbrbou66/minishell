@@ -57,7 +57,7 @@ void	ft_split_ex(t_token **lst, t_env *e, char *value, t_tokentype type)
 		ft_split_expanded(value, lst, e);
 }
 
-void	ft_lstnew(t_token **lst, t_spli_cmd s, t_env *e, int r)
+void	ft_lstnew(t_token **lst, t_split_cmd s, t_env *e, int r)
 {
 	t_token		*elt;
 	t_token		*last;

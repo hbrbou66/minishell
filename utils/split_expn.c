@@ -37,7 +37,7 @@ int	list_size(char **list)
 
 void	add_to_lst(t_token **lst, char **list, char *cmd, t_var *vars)
 {
-	t_spli_cmd	s;
+	t_split_cmd	s;
 	t_token		*tmp;
 	int			j;
 	int			size;
@@ -63,7 +63,7 @@ void	add_to_lst(t_token **lst, char **list, char *cmd, t_var *vars)
 void	ft_split_expanded(char *val, t_token **lst, t_env *env)
 {
 	t_expand_ctx	ctx;
-	t_spli_cmd		s;
+	t_split_cmd		s;
 	t_var			*vs;
 	char			**v_e;
 

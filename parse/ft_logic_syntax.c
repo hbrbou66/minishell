@@ -48,10 +48,10 @@ bool	should_expand(char *s, t_expand e)
 
 bool	is_invalid_dollar_after_op(t_expand_ctx *c)
 {
-	if (c->s[c->e.index] == '$' && c->s[c->e.index + 1] == '"' \
-		&& c->e.double_q)
+	if (c->source_string[c->expand_state.index] == '$' && c->source_string[c->expand_state.index + 1] == '"' \
+		&& c->expand_state.double_q)
 		return (true);
-	return ((c->s[c->e.index] == '$' && check_assi(c->s, c->e.index)));
+	return ((c->source_string[c->expand_state.index] == '$' && check_assi(c->source_string, c->expand_state.index)));
 }
 
 int	check_for_s(char *string)

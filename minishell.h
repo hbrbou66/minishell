@@ -86,33 +86,26 @@ typedef struct s_expand
 
 typedef struct s_expand_ctx
 {
-	char		*nv;
-	bool		r;
-	t_expand	e;
+	char		*New_value;
+	bool		Reset_flag;
+	t_expand	expand_state;
 	t_env		*envp;
-	char		*s;
+	char		*source_string;
 }	t_expand_ctx;
 
 typedef struct s_heredoc_ctx
 {
-	char	*f;
+	char	*tmp_file;
 	int		fd_out;
 	int		fd_in;
-	int		st;
+	int		Status;
 }	t_heredoc_ctx;
 
-typedef struct s_cut
-{
-	t_token	*tmp;
-	int		pip_i;
-}	t_cut;
-
-typedef struct s_spli_cmd
+typedef struct s_split_cmd
 {
 	char		*cmd;
 	t_tokentype	type;
-	int			j;
-}	t_spli_cmd;
+}	t_split_cmd;
 
 typedef enum s_vartype
 {
@@ -146,7 +139,7 @@ void		ft_syntax_error(void);
 char		*subs(char *s, unsigned int start, size_t len);
 t_token		*s_cmd(char **command, t_env *envp);
 char		*ft_strchr( char *s, int c);
-void		ft_lstnew(t_token **lst, t_spli_cmd s, t_env *e, int r);
+void		ft_lstnew(t_token **lst, t_split_cmd s, t_env *e, int r);
 t_token		*ft_lstlast(t_token *lst);
 void		ft_lstadd_back(t_token **lst, t_token *new);
 int			ft_is_space(char c);

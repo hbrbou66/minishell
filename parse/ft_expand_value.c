@@ -31,7 +31,7 @@ void	first_expand(t_expand_ctx *c)
 {
 	t_var	*list;
 
-	list = s_var(c->s);
+	list = s_var(c->source_string);
 	while (list)
 	{
 		if (!ft_strcmp(list->value, "$?"))
@@ -42,20 +42,20 @@ void	first_expand(t_expand_ctx *c)
 			list->value = g_env(list->value, c->envp);
 		else
 			list->value = ft_remove_quotes(c, list->value);
-		c->nv = strj(c->nv, list->value);
+		c->New_value = strj(c->New_value, list->value);
 		list = list->next;
 	}
 }
 
 void	init_expan(t_expand_ctx *ctx, char *s, t_env *envp)
 {
-	ctx->nv = NULL;
-	ctx->e.index = 0;
-	ctx->e.single_q = false;
-	ctx->e.double_q = false;
-	ctx->r = true;
+	ctx->New_value = NULL;
+	ctx->expand_state.index = 0;
+	ctx->expand_state.single_q = false;
+	ctx->expand_state.double_q = false;
+	ctx->Reset_flag = true;
 	ctx->envp = envp;
-	ctx->s = s;
+	ctx->source_string = s;
 }
 
 char	*exp_val(char *s, t_env *envp)
@@ -64,5 +64,5 @@ char	*exp_val(char *s, t_env *envp)
 
 	init_expan(&ctx, s, envp);
 	first_expand(&ctx);
-	return (ctx.nv);
+	return (ctx.New_value);
 }

@@ -3,20 +3,20 @@
 
 int	init_heredoc_ctx(t_heredoc_ctx *ctx, t_token **lst)
 {
-	ctx->f = ft_malloc(100, ALLOC);
-	if (!ctx->f)
+	ctx->tmp_file = ft_malloc(100, ALLOC);
+	if (!ctx->tmp_file)
 		return (1);
-	ctx->st = 0;
+	ctx->Status = 0;
 	ctx->fd_in = -1;
 	ctx->fd_out = -1;
-	ctx->f = strj("/tmp/", ft_itoa((long)&ctx->fd_in));
-	ctx->fd_out = open(ctx->f, O_TRUNC | O_WRONLY | O_CREAT, 0777);
+	ctx->tmp_file = strj("/tmp/", ft_itoa((long)&ctx->fd_in));
+	ctx->fd_out = open(ctx->tmp_file, O_TRUNC | O_WRONLY | O_CREAT, 0777);
 	if (ctx->fd_out == -1)
 		return (perror("open"), 1);
-	ctx->fd_in = open(ctx->f, O_RDONLY);
+	ctx->fd_in = open(ctx->tmp_file, O_RDONLY);
 	if (ctx->fd_in == -1)
 		return (perror("open"), skip_till_pipe(lst), close(ctx->fd_out), 1);
-	unlink(ctx->f);
+	unlink(ctx->tmp_file);
 	return (0);
 }
 

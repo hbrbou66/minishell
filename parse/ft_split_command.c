@@ -77,7 +77,7 @@ t_token	*s_cmd(char **cmd, t_env *envp)
 {
 	t_token		*lst;
 	int			i;
-	t_spli_cmd	s;
+	t_split_cmd	s;
 
 	lst = NULL;
 	i = 0;
