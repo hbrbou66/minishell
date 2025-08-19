@@ -1,0 +1,78 @@
+digraph ParseFlow {
+    rankdir=TB
+    node [shape=box, style="rounded,filled", fillcolor=lightblue]
+    edge [color=blue, penwidth=2]
+
+    // Input stage
+    input [label="User Input\n(readline)", fillcolor=lightgreen]
+    
+    // Syntax validation stage
+    syntax_check [label="Syntax Validation\nft_parse_command()", fillcolor=lightyellow]
+    quote_check [label="Quote Validation\nft_check_quots()", fillcolor=lightyellow]
+    bracket_check [label="Bracket Validation\nft_check_braces()", fillcolor=lightyellow]
+    operator_check [label="Operator Validation\nft_check_syntax()", fillcolor=lightyellow]
+    
+    // Tokenization stage
+    split_cmd [label="Split Command\nft_split()", fillcolor=lightcyan]
+    create_tokens [label="Create Token List\ns_cmd()", fillcolor=lightcyan]
+    token_type [label="Assign Token Types\nft_token_type()", fillcolor=lightcyan]
+    
+    // Token list creation
+    token_list [label="Raw Token List\n(t_token *)", fillcolor=orange]
+    
+    // Expansion stage
+    expand_start [label="Variable Expansion\nft_expand()", fillcolor=pink]
+    var_expansion [label="Variable Substitution\nexp_val()", fillcolor=pink]
+    quote_removal [label="Quote Removal\nremove_q()", fillcolor=pink]
+    heredoc_handling [label="Heredoc Processing\nhandle_heredoc()", fillcolor=pink]
+    
+    // Final parsing result
+    final_tokens [label="Processed Token List\n(Ready for Execution)", fillcolor=lightgreen, penwidth=3]
+    
+    // Flow connections
+    input -> syntax_check
+    syntax_check -> quote_check
+    quote_check -> bracket_check
+    bracket_check -> operator_check
+    
+    operator_check -> split_cmd [label="Valid"]
+    syntax_check -> input [label="Invalid\n(Error)", color=red, style=dashed]
+    
+    split_cmd -> create_tokens
+    create_tokens -> token_type
+    token_type -> token_list
+    
+    token_list -> expand_start
+    expand_start -> var_expansion
+    expand_start -> quote_removal
+    expand_start -> heredoc_handling
+    
+    var_expansion -> final_tokens
+    quote_removal -> final_tokens
+    heredoc_handling -> final_tokens
+    
+    // Token types legend
+    subgraph cluster_token_types {
+        label="Token Types"
+        style=filled
+        fillcolor=white
+        
+        WORD [label="WORD", fillcolor=lightgray]
+        PIPE [label="PIPE |", fillcolor=lightgray]
+        R_IN [label="REDIRECT_IN <", fillcolor=lightgray]
+        R_OUT [label="REDIRECT_OUT >", fillcolor=lightgray]
+        APPEND [label="APPEND >>", fillcolor=lightgray]
+        HEREDOC [label="HEREDOC <<", fillcolor=lightgray]
+        EXPAN [label="EXPANSION $VAR", fillcolor=lightgray]
+    }
+    
+    // Data structures
+    subgraph cluster_structures {
+        label="Key Data Structures"
+        style=filled
+        fillcolor=white
+        
+        t_token_struct [label="t_token:\n• type (t_tokentype)\n• value (char *)\n• next/previous\n• fd_reder\n• ambg flag\n• heredoc_expn", fillcolor=lightyellow, shape=record]
+        t_shell_struct [label="t_shell:\n• input\n• lst (t_token *)\n• exec (t_exec *)\n• envp (t_env *)", fillcolor=lightcyan, shape=record]
+    }
+}

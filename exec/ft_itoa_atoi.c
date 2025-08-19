@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa_atoi.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:11:43 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/17 14:39:00 by hbou-dou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -28,7 +39,7 @@ char	*ft_itoa(int n)
 		return (ft_strdup("0"));
 	else if (num < 0)
 		(1) && (len++, flag = 1, num *= -1);
-	s = ft_malloc (len + 1, ALLOC);
+	s = ft_malloc(len + 1, ALLOC);
 	if (flag == 1)
 		s[0] = '-';
 	s[len] = '\0';
@@ -60,7 +71,7 @@ int	ft_atoi(const char *str, int *flag)
 	while (*str >= '0' && *str <= '9')
 	{
 		res = res * 10 + (*(str++) - 48);
-		if (res > 9223372036854775807 && sig == -1)
+		if (res - 1 > 9223372036854775807 && sig == -1)
 			return (*flag = 1, 0);
 		if (res > 9223372036854775807 && sig == 1)
 			return (*flag = 1, -1);

@@ -1,64 +1,71 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_parse_command.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:54:02 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/17 21:19:51 by hbou-dou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_count_operator(char *string, int index, char c)
+int	ft_operator_count(char *str, int index, char c)
 {
-	int	count;
-
-	count = 0;
-	while (string[index] == c)
+	int (i) = 0;
+	while (str[index] == c)
 	{
-		count++;
+		i++;
 		index++;
 	}
-	return (count);
+	return (i);
 }
 
-void	skip_quotes(char *string, int *i)
+void	quotes_skip(char *str, int *i)
 {
 	char	c;
 
-	c = string[*i];
+	c = str[*i];
 	(*i)++;
-	while (string[*i] && string[*i] != c)
+	while (str[*i] && str[*i] != c)
 		(*i)++;
 }
 
-int	check_operator(char *string, int *i)
+int	check_operator(char *str, int *i)
 {
 	char	c;
 
-	c = string[*i];
-	if (check_case_rp(string, i))
+	c = str[*i];
+	if (check_redirection_pipe(str, i))
 		return (2);
-	if (ft_count_operator(string, *i, string[*i]) > 2)
+	if (ft_operator_count(str, *i, str[*i]) > 2)
 		return (e_status(2, 1), ft_syntax_error(), 1);
-	while (string[*i] == c)
+	while (str[*i] == c)
 		(*i)++;
-	skip_s(string, i);
-	if (!string[*i] || ft_strchr("|<>", string[*i]))
+	skip_s(str, i);
+	if (!str[*i] || ft_strchr("|<>", str[*i]))
 		return (e_status(2, 1), ft_syntax_error(), 1);
 	return (0);
 }
 
-int	ft_check_syntax(char *string, int count, int i)
+int	ft_syntax_check(char *string)
 {
-	int	s;
-
-	(1) && (i = 0, count = 0);
+	int (j) = 0, (i) = 0, (count) = 0;
 	while (string[i])
 	{
 		if (string[i] == '\'' || string[i] == '\"')
-			skip_quotes(string, &i);
+			quotes_skip(string, &i);
 		else if (string[i] && (string[i] == '<' || string[i] == '>'))
 		{
-			s = check_operator(string, &i);
-			if (s == 2)
+			j = check_operator(string, &i);
+			if (j == 2)
 				continue ;
-			else if (s == 1)
+			else if (j == 1)
 				return (1);
 		}
-		else if (string[i] && check_pip(string, &i))
+		else if (string[i] && pip_check(string, &i))
 			return (1);
 		if (string[i])
 			i++;
@@ -66,21 +73,16 @@ int	ft_check_syntax(char *string, int count, int i)
 	return (0);
 }
 
-int	ft_parse_command(char *string)
+int	ft_parse_command(char *str)
 {
-	int	count;
-	int	i;
-
-	i = 0;
-	count = 0;
-	if (string)
+	if (str)
 	{
-		if (ft_check_quots(string))
-			return (free(string), 1);
-		if (ft_check_syntax(string, count, i))
-			return (free(string), 1);
-		if (ft_check_braces(string))
-			return (free(string), 1);
+		if (ft_check_quots(str))
+			return (free(str), 1);
+		if (ft_syntax_check(str))
+			return (free(str), 1);
+		if (ft_check_braces(str))
+			return (free(str), 1);
 	}
 	return (0);
 }

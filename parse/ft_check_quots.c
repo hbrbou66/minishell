@@ -1,37 +1,54 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_check_quots.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:52:53 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/17 18:27:20 by hbou-dou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_check_end(char *command, char c)
+static void	ft_unclosed_quote(void)
 {
-	int	index;
-
-	index = 1;
-	while (command[index] && command[index] != c)
-		index++;
-	if (command[index] == c)
-		return (index);
-	return (ft_syntax_error(), -1);
+	ft_putstr_fd("minishell: quotes not closed\n", 2);
 }
 
-int	ft_check_quots(char *command)
+int	ft_check_end(char *cmd, char c)
 {
-	int		index;
-	int		resault;
+	int	i;
+
+	i = 1;
+	while (cmd[i] && cmd[i] != c)
+		i++;
+	if (cmd[i] == c)
+		return (i);
+	ft_unclosed_quote();
+	return (-1);
+}
+
+int	ft_check_quots(char *cmd)
+{
+	int		i;
+	int		result;
 	char	c;
 
-	index = 0;
-	resault = -1;
-	while (command[index])
+	i = 0;
+	result = -1;
+	while (cmd[i])
 	{
-		if (ft_strchr("\'\"", command[index]))
+		if (ft_strchr("\'\"", cmd[i]))
 		{
-			c = command[index];
-			resault = ft_check_end(command + index, c);
-			if (resault == -1)
+			c = cmd[i];
+			result = ft_check_end(cmd + i, c);
+			if (result == -1)
 				return (e_status(2, 1), 1);
-			index += resault;
+			i += result;
 		}
-		index++;
+		i++;
 	}
 	return (0);
 }

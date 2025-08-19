@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abraji <abrajistudent.1337>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:11:30 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/16 03:15:43 by abraji           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -15,7 +26,7 @@ int	e_status(int sts, int set)
 	return (status);
 }
 
-int	is_valid_exit(char	*opt)
+int	is_valid_exit(char *opt)
 {
 	if (!opt)
 		return (1);
@@ -33,18 +44,16 @@ int	is_valid_exit(char	*opt)
 void	err_num(char *opt)
 {
 	ft_putstr_fd("minishell: exit: ", 2);
-	ft_putstr_fd(opt, 1);
+	ft_putstr_fd(opt, 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
 	exit(2);
 }
 
 int	ft_exec_exit(char **opt, bool forked)
 {
-	//int	i;
 	int	nbr;
 	int	flag;
 
-	//i = 0;
 	if (forked == false)
 		ft_putstr_fd("exit\n", 1);
 	if (opt[0] && !opt[1])
@@ -60,7 +69,7 @@ int	ft_exec_exit(char **opt, bool forked)
 	}
 	else
 	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 1);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		return (e_status(1, 1));
 	}
 	return (0);

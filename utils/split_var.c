@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_var.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 04:00:15 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/17 18:43:17 by hbou-dou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -41,16 +52,16 @@ void	new_var(t_var **lst, char *value, t_vartype type)
 
 t_var	*s_var(char *s)
 {
-	t_expand	e;
-	t_var		*lst;
-
+	t_expand (e);
+	t_var *(lst);
 	(1) && (e.index = 0, e.double_q = false, e.single_q = false, lst = NULL);
 	while (s[e.index])
 	{
 		e.start_index = e.index;
 		while (s[e.index])
 		{
-			if (s[e.index] == '$' && s[e.index + 1] && id_check(s + e.index + 1) && !e.single_q)
+			if (s[e.index] == '$' && s[e.index + 1] && check_id(s + e.index + 1)
+				&& !e.single_q)
 				break ;
 			if (s[e.index] == '\'' && !e.double_q)
 				(1) && (e.index++, e.single_q = !e.single_q);
@@ -62,8 +73,8 @@ t_var	*s_var(char *s)
 		new_var(&lst, subs(s, e.start_index, e.index - e.start_index), WORD_V);
 		if (!s[e.index])
 			break ;
-		new_var(&lst, subs(s, e.index, skip_variable(s, e.index)), VAR);
-		e.index += skip_variable(s, e.index);
+		new_var(&lst, subs(s, e.index, variable_skip(s, e.index)), VAR);
+		e.index += variable_skip(s, e.index);
 	}
 	return (lst);
 }

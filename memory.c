@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   memory.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abraji <abraji@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 04:04:34 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/16 04:04:35 by abraji           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -10,7 +21,7 @@ t_memory	*ft_lstlast_memory(t_memory *lst)
 	return (lst);
 }
 
-void	add_to_garabage(t_memory **lst, t_memory *new)
+void	add_to_memory(t_memory **lst, t_memory *new)
 {
 	if (!lst)
 		return ;
@@ -24,7 +35,7 @@ t_memory	*ft_new_memory(void *adress)
 {
 	t_memory	*new;
 
-	new = malloc (sizeof(t_memory));
+	new = malloc(sizeof(t_memory));
 	if (!new)
 	{
 		free(adress);
@@ -53,7 +64,7 @@ void	clear_it(t_memory *memory)
 void	*ft_malloc(size_t size, int flag)
 {
 	static t_memory	*memory;
-	void				*ret;
+	void			*ret;
 
 	if (flag == CLEAR_DATA)
 	{
@@ -67,6 +78,6 @@ void	*ft_malloc(size_t size, int flag)
 		perror("malloc()");
 		exit(1);
 	}
-	add_to_garabage(&memory, ft_new_memory(ret));
+	add_to_memory(&memory, ft_new_memory(ret));
 	return (ret);
 }

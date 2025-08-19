@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abraji <abrajistudent.1337>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:10:59 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/16 03:11:00 by abraji           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -10,7 +21,7 @@ void	init_default_env(t_env **env, char *pwd)
 	ft_lstadd_back_exec(env, ft_lstnew_exec(ft_strdup("PATH"),
 			ft_strdup(path)));
 	ft_lstadd_back_exec(env, ft_lstnew_exec(ft_strdup("PWD"), ft_strdup(pwd)));
-	ft_lstadd_back_exec(env, ft_lstnew_exec(ft_strdup("SHLVL"), \
+	ft_lstadd_back_exec(env, ft_lstnew_exec(ft_strdup("SHLVL"),
 			ft_strdup("1")));
 }
 
@@ -55,7 +66,7 @@ char	*get_env_value(t_env **env, char *path)
 	return (value);
 }
 
-t_env	*find_env(t_env	*env, char *key)
+t_env	*find_env(t_env *env, char *key)
 {
 	while (env)
 	{

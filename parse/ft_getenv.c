@@ -1,33 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_getenv.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:53:56 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/17 19:40:40 by hbou-dou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*g_env(char *value, t_env *envp)
-{
-	char	*sub;
-	char	*found;
-	int		skipped;
-	t_env	*tmp;
-
-	skipped = skip_variable(value, 0);
-	sub = subs(value, 1, skipped - 1);
-	if (!ft_strcmp(sub, "?"))
-		return (ft_itoa(e_status(0, 0)));
-	tmp = find_env(envp, sub);
-	if (!tmp)
-		return (NULL);
-	found = tmp->value;
-	if (!found[0])
-		return (NULL);
-	return (found);
-}
-
-void	default_sig(void)
-{
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
-}
-
-void	child_sig(char	*cmd)
+void	child_signal(char *cmd)
 {
 	if (ft_strstr(cmd, "minishell"))
 	{
@@ -36,13 +21,35 @@ void	child_sig(char	*cmd)
 	}
 	else
 		signal(SIGQUIT, handler);
-	recevied_from_inp(1, 1);
+	recevied_from_input(1, 1);
 }
 
-int	check_type_exp(t_tokentype type)
+char	*get_env(char *val, t_env *envp)
 {
-	if (type == EXPAN || type == SINGLE_Q \
-		|| type == DOUBLE_Q || type == WORD)
+	char *(sub_var), *(result);
+	int (processed);
+	t_env *(tmp);
+	processed = variable_skip(val, 0);
+	sub_var = subs(val, 1, processed - 1);
+	if (!ft_strcmp(sub_var, "?"))
+		return (ft_itoa(e_status(0, 0)));
+	tmp = find_env(envp, sub_var);
+	if (!tmp)
+		return (NULL);
+	result = tmp->value;
+	if (!result[0])
+		return (NULL);
+	return (result);
+}
+
+void	default_signal(void)
+{
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+}
+int	check_exp_type(t_tokentype type)
+{
+	if (type == EXPAN || type == SINGLE_Q || type == DOUBLE_Q || type == WORD)
 		return (1);
 	return (0);
 }

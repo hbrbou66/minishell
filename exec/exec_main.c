@@ -1,34 +1,55 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_main.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:11:08 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/18 09:06:03 by hbou-dou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
 void	call_execve(t_exec *head, t_env *env)
 {
-	char		**envp;
-	struct stat	sb;
-
+	char **(envp);
+	struct stat (st);
+	int err, (code) = 127;
 	envp = convert_t_env(env);
 	execve(head->cmd, head->cmd_args, envp);
-	if (stat(head->cmd, &sb) == -1)
+	err = errno;
+	if (stat(head->cmd, &st) == 0 && S_ISDIR(st.st_mode))
 	{
-		perror("stat");
-		ft_malloc(0, CLEAR_DATA);
-		exit(errno);
-	}
-	if (S_ISDIR(sb.st_mode))
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(head->cmd, 2);
-		ft_putstr_fd(": Is a directory\n", 2);
-		ft_malloc(0, CLEAR_DATA);
+		ft_putstr_fd("minishell: ", 2), ft_putstr_fd(head->cmd, 2);
+		ft_putstr_fd(": Is a directory\n", 2), ft_malloc(0, CLEAR_DATA);
 		exit(126);
+	}
+	if (err == ENOEXEC)
+	{
+		if (stat(head->cmd, &st) == 0 && st.st_size == 0)
+			ft_malloc(0, CLEAR_DATA), exit(0);
+		execve("/bin/sh", (char *[]){"/bin/sh", head->cmd, NULL}, envp);
 	}
 	perror(head->cmd);
 	ft_malloc(0, CLEAR_DATA);
-	exit(errno);
+	if (err == ENOENT)
+		code = 127;
+	else if (err == EACCES)
+		code = 126;
+	exit(code);
 }
 
 void	in_child(t_exec *head, t_env **env, int *fd)
 {
+	if (head->flag)
+	{
+		close(fd[0]);
+		close(fd[1]);
+		ft_malloc(0, CLEAR_DATA);
+		exit(1);
+	}
 	if (is_builtin(head->cmd))
 	{
 		setup_child(fd, NULL, head, 1);
@@ -49,14 +70,14 @@ pid_t	execute_cmd(t_exec *head, t_env **env)
 
 	if (pipe(fd) == -1)
 		return (perror("pipe"), ft_malloc(0, CLEAR_DATA), -1);
-	child_sig(head->cmd);
+	child_signal(head->cmd);
 	pid = fork();
 	if (pid == -1)
-		return (close(fd[0]), close(fd[1]), perror("fork"), \
-		ft_malloc(0, CLEAR_DATA), -1);
+		return (close(fd[0]), close(fd[1]), perror("fork"), ft_malloc(0,
+				CLEAR_DATA), -1);
 	if (pid == 0)
 	{
-		default_sig();
+		default_signal();
 		in_child(head, env, fd);
 	}
 	else
@@ -64,30 +85,50 @@ pid_t	execute_cmd(t_exec *head, t_env **env)
 	return (pid);
 }
 
-int	execution(t_exec *exec, t_env **env)
+static pid_t	exec_loop(t_exec *exec, t_env **env, int *had_error)
 {
-	int		fd;
-	//int		j;
 	pid_t	last_pid;
 
 	last_pid = -1;
-	//j = 2;
-	if (ft_lstsize(exec) == 1 && is_builtin(exec->cmd))
-		return (execute_builtin(exec, env, false), 1);
-	fd = dup(STDIN_FILENO);
-	if (fd == -1)
-		return (perror("dup()"), ft_malloc(0, CLEAR_DATA), 1);
 	while (exec)
 	{
-		if (!exec->flag)
-			last_pid = execute_cmd(exec, env);
-		if (exec->fd_in != 0)
+		if (exec->flag)
+			*had_error = 1;
+		last_pid = execute_cmd(exec, env);
+		if (exec->fd_in > 0)
 			close(exec->fd_in);
 		if (exec->fd_out > 2)
 			close(exec->fd_out);
 		exec = exec->next;
 	}
+	return (last_pid);
+}
+
+int	execution(t_exec *exec, t_env **env)
+{
+	int (fd), (had_error) = 0, (code);
+	pid_t (last_pid);
+	if (ft_lstsize(exec) == 1 && is_builtin(exec->cmd))
+		return (execute_builtin(exec, env, false), 1);
+	fd = dup(STDIN_FILENO);
+	if (fd == -1)
+	{
+		perror("dup()");
+		ft_malloc(0, CLEAR_DATA);
+		return (1);
+	}
+	last_pid = exec_loop(exec, env, &had_error);
 	dup2(fd, 0);
 	close(fd);
-	return (check_exit_status(last_pid));
+	if (last_pid == -1)
+	{
+		if (had_error)
+			return (e_status(1, 1));
+		else
+			return (e_status(0, 0));
+	}
+	code = check_exit_status(last_pid);
+	if (had_error && code == 128 + SIGPIPE)
+		return (e_status(1, 1));
+	return (code);
 }

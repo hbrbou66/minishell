@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lst_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:59:38 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/17 20:58:02 by hbou-dou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -20,7 +31,7 @@ int	shouldnt_split(char *v, t_tokentype type, int f)
 			single_q = !single_q;
 		if (v[i] == '\"' && !single_q)
 			double_q = !double_q;
-		if (v[i] == '$' && v[i + 1] && id_check(v + 1 + i) && operator && f)
+		if (v[i] == '$' && v[i + 1] && check_id(v + 1 + i) && operator && f)
 			return (1);
 		if (v[i] == '=' && !double_q)
 			operator = 1;
@@ -73,7 +84,7 @@ void	ft_lstnew(t_token **lst, t_split_cmd s, t_env *e, int r)
 	last = ft_lstlast(*lst);
 	if (last && last->type == HERDOC)
 		s.type = DELEMTER;
-	if (ft_check_var(s.cmd) && s.type != DELEMTER)
+	if (ft_var_check(s.cmd) && s.type != DELEMTER)
 		return (ft_split_ex(lst, e, s.cmd, s.type));
 	if (s.type == DELEMTER && (ft_strchr(s.cmd, '\'') \
 	|| ft_strchr(s.cmd, '\"')))

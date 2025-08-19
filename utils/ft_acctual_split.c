@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_acctual_split.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:59:29 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/17 12:23:20 by hbou-dou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -16,8 +27,8 @@ int	dollar_case(char *s)
 			single_q = !single_q;
 		else if (s[i] == '\"' && !single_q)
 			double_q = !double_q;
-		else if (s[i] == '$' && s[i + 1] && ft_strchr("\'\"", s[i + 1]) \
-		&& !double_q && !single_q)
+		else if (s[i] == '$' && s[i + 1] && ft_strchr("\'\"", s[i + 1])
+			&& !double_q && !single_q)
 			return (1);
 		i++;
 	}
@@ -43,21 +54,12 @@ static size_t	count_words(char *s)
 	return (count);
 }
 
-char	**a_split(char *s)
+static void	populate_split(char **str, char *s, size_t *j)
 {
-	char	**str;
 	size_t	i;
 	size_t	r;
-	size_t	j;
 
-	if (!s)
-	{
-		str = ft_malloc(sizeof(char *), ALLOC);
-		str[0] = NULL;
-		return (str);
-	}
-	str = ft_malloc(sizeof(char *) * (count_words(s) + 1), ALLOC);
-	(1) && (i = 0, j = 0);
+	i = 0;
 	while (s[i])
 	{
 		i = skip_spaces(s, i);
@@ -66,8 +68,30 @@ char	**a_split(char *s)
 			r = i;
 			while (s[i] && !ft_is_space(s[i]))
 				i++;
-			str[j++] = subs(s, r, i - r);
+			str[(*j)++] = subs(s, r, i - r);
 		}
 	}
+}
+
+char	**a_split(char *s)
+{
+	char **(str);
+	size_t (j);
+	int (leading), (extra);
+	if (!s)
+	{
+		str = ft_malloc(sizeof(char *), ALLOC);
+		str[0] = NULL;
+		return (str);
+	}
+	leading = ft_is_space(s[0]);
+	extra = 0;
+	if (leading)
+		extra++;
+	str = ft_malloc(sizeof(char *) * (count_words(s) + 1 + extra), ALLOC);
+	j = 0;
+	if (leading)
+		str[j++] = ft_strdup("");
+	populate_split(str, s, &j);
 	return (str[j] = NULL, str);
 }

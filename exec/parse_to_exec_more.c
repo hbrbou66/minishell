@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_to_exec_more.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:11:49 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/17 20:48:09 by hbou-dou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -6,7 +17,7 @@ int	init_heredoc_ctx(t_heredoc_ctx *ctx, t_token **lst)
 	ctx->tmp_file = ft_malloc(100, ALLOC);
 	if (!ctx->tmp_file)
 		return (1);
-	ctx->Status = 0;
+	ctx->status = 0;
 	ctx->fd_in = -1;
 	ctx->fd_out = -1;
 	ctx->tmp_file = strj("/tmp/", ft_itoa((long)&ctx->fd_in));
@@ -26,30 +37,29 @@ int	handle_heredoc(t_token *lst, t_env *env)
 
 	if (init_heredoc_ctx(&ctx, &lst))
 		return (skip_till_pipe(&lst), -1);
-	signal(SIGINT, &signal_heredoc);
-	if (ft_handle_heredoc(lst, env, ctx.fd_out))
+	signal(SIGINT, &heredoc_signal);
+	if (ft_heredoc_handle(lst, env, ctx.fd_out))
 		return (close(ctx.fd_in), -2);
 	return (ctx.fd_in);
 }
 
 int	handle_redirect_in(t_token **lst, t_exec *node)
 {
-	if (node->fd_in != 0)
-		close(node->fd_in);
-	if ((*lst)->next->ambg)
-	{
-		if (node->fd_in > 0)
-			close(node->fd_in);
-		if (node->fd_out > 2)
-			close(node->fd_out);
-		skip_till_pipe(lst);
-		return (ambigous_red(), 1);
-	}
+	int (tmp), (a);
+	a = check_imbguous(lst, node);
+	if (a != 0)
+		return (a);
 	node->fd_in = open((*lst)->next->value, O_RDONLY);
 	if (node->fd_in == -1)
 	{
-		node->flag = 1;
+		node->flag = errno;
 		perror("minishell");
+		if (node->next)
+		{
+			tmp = open("/dev/null", O_RDONLY);
+			if (tmp != -1)
+				node->fd_in = tmp;
+		}
 		skip_till_pipe(lst);
 		return (1);
 	}
@@ -70,11 +80,11 @@ int	handle_append(t_token **lst, t_exec *node)
 		skip_till_pipe(lst);
 		return (ambigous_red(), 1);
 	}
-	node->fd_out = open((*lst)->next->value, \
-	O_WRONLY | O_CREAT | O_APPEND, 0644);
+	node->fd_out = open((*lst)->next->value, O_WRONLY | O_CREAT | O_APPEND,
+			0644);
 	if (node->fd_out == -1)
 	{
-		node->flag = 1;
+		node->flag = errno;
 		perror("minishell");
 		skip_till_pipe(lst);
 		return (1);
@@ -96,13 +106,13 @@ int	handle_redirect_out(t_token **lst, t_exec *node)
 		skip_till_pipe(lst);
 		return (ambigous_red(), 1);
 	}
-	if ((*lst)->next && !ft_strcmp((*lst)->next->value, "|") \
-	&& (*lst)->next->next)
+	if ((*lst)->next && !ft_strcmp((*lst)->next->value, "|")
+		&& (*lst)->next->next)
 		(*lst) = (*lst)->next;
 	node->fd_out = open((*lst)->next->value, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (node->fd_out == -1)
 	{
-		node->flag = 1;
+		node->flag = errno;
 		perror("minishell");
 		skip_till_pipe(lst);
 		return (1);

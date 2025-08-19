@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abraji <abrajistudent.1337>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:11:35 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/16 03:11:36 by abraji           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -69,7 +80,7 @@ int	ft_export(char **opt, t_env **env, int fd)
 		if (tmp && tmp->value && !ft_strchr(opt[i], '='))
 			continue ;
 		ptr = ft_strchr(opt[i], '=');
-		if (ptr && *(ptr -1) == '+')
+		if (ptr && *(ptr - 1) == '+')
 			handle_plus_equal(opt[i], env);
 		else
 			handle_equal_or_none(opt[i], env);

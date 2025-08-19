@@ -1,37 +1,48 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_token_type.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:54:15 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/17 21:11:11 by hbou-dou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool	ft_check_pip(char *string)
+bool	ft_append(char *str)
 {
-	if (string[0] == '|')
+	if (str[0] == '>' && str[1] == '>')
 		return (true);
 	return (false);
 }
 
-bool	ft_check_redirect_in(char *string)
+bool	ft_redirect_out(char *str)
 {
-	if (string[0] == '<' && string[1] != '<')
+	if (str[0] == '>' && str[1] != '>')
 		return (true);
 	return (false);
 }
 
-bool	ft_check_redirect_out(char *string)
+bool	ft_pip_check(char *str)
 {
-	if (string[0] == '>' && string[1] != '>')
+	if (str[0] == '|')
 		return (true);
 	return (false);
 }
 
-bool	ft_check_append(char *string)
+bool	ft_heredoc(char *str)
 {
-	if (string[0] == '>' && string[1] == '>')
+	if (str[0] == '<' && str[1] == '<')
 		return (true);
 	return (false);
 }
 
-bool	ft_check_heredoc(char *string)
+bool	ft_redirect_in(char *str)
 {
-	if (string[0] == '<' && string[1] == '<')
+	if (str[0] == '<' && str[1] != '<')
 		return (true);
 	return (false);
 }

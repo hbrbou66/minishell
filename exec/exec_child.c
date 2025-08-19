@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_child.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:11:01 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/17 19:05:46 by hbou-dou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -31,9 +42,6 @@ int	check_exit_status(pid_t last_pid)
 
 void	cmd_not_found(char *cmd)
 {
-	//int	k;
-
-	//k = 2;
 	if (!cmd)
 		exit(0);
 	write(2, cmd, ft_strlen(cmd));
@@ -51,30 +59,62 @@ int	parent_thing(int *fd, t_exec *head)
 	return (1);
 }
 
+static void	redirect_fds(int *fd, t_exec *head)
+{
+	if (head->fd_in != STDIN_FILENO && head->fd_in > 0)
+	{
+		dup2(head->fd_in, STDIN_FILENO);
+		close(head->fd_in);
+	}
+	if (head->fd_out != STDOUT_FILENO && head->fd_out >= 0)
+	{
+		dup2(head->fd_out, STDOUT_FILENO);
+		close(head->fd_out);
+	}
+	else if (head->next)
+		dup2(fd[1], STDOUT_FILENO);
+	close(fd[1]);
+	close(fd[0]);
+}
+
 void	setup_child(int *fd, t_env *path, t_exec *head, int bltn)
 {
 	char	*pth;
 
 	if (!bltn)
 	{
+		pth = NULL;
 		if (path)
 			pth = path->value;
-		else
-			pth = "";
-		head->cmd = get_cmd_path(head->cmd, pth);
+		if (!ft_strchr(head->cmd, '/'))
+			head->cmd = get_cmd_path(head->cmd, pth);
 	}
-	if (head->next)
-		dup2(fd[1], 1);
-	if (head->fd_in != 0)
+	if (bltn)
 	{
-		dup2(head->fd_in, 0);
-		close(head->fd_in);
+		if (head->fd_out == STDOUT_FILENO && head->next)
+			head->fd_out = fd[1];
+		close(fd[0]);
+		return ;
 	}
-	if (head->fd_out != 1)
-	{
-		dup2(head->fd_out, 1);
-		close(head->fd_out);
-	}
-	close(fd[1]);
-	close(fd[0]);
+	redirect_fds(fd, head);
 }
+
+// void	setup_child(int *fd, t_env *path, t_exec *head, int bltn)
+// {
+// 	char	*pth;
+
+// 	if (!bltn)
+// 	{
+// 		pth = (path) ? path->value : "";
+// 		if (!ft_strchr(head->cmd, '/'))
+// 			head->cmd = get_cmd_path(head->cmd, pth);
+// 	}
+// 	if (bltn)
+// 	{
+// 		if (head->fd_out == STDOUT_FILENO && head->next)
+// 			head->fd_out = fd[1];
+// 		close(fd[0]);
+// 		return ;
+// 	}
+// 	redirect_fds(fd, head);
+// }

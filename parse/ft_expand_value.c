@@ -1,68 +1,78 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_expand_value.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:53:51 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/17 19:34:15 by hbou-dou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool	handle_quotes(char *s, t_expand *e)
+void	init_exp_vars(char **nvar, t_expand *exp, bool *reset)
 {
-	if (s[e->index] == '\'' && !e->double_q)
-	{
-		e->single_q = !e->single_q;
-		e->index++;
-		return (true);
-	}
-	else if (s[e->index] == '\"' && !e->single_q)
-	{
-		e->double_q = !e->double_q;
-		e->index++;
-		return (true);
-	}
-	return (false);
-}
-
-void	init_expand_vars(char **nv, t_expand *e, bool *reset)
-{
-	*nv = NULL;
-	e->index = 0;
-	e->single_q = false;
-	e->double_q = false;
+	*nvar = NULL;
+	exp->index = 0;
+	exp->single_q = false;
+	exp->double_q = false;
 	*reset = true;
 }
 
-void	first_expand(t_expand_ctx *c)
+void	init_expan(t_expand_ctx *ctx, char *str, t_env *envp)
 {
-	t_var	*list;
-
-	list = s_var(c->source_string);
-	while (list)
-	{
-		if (!ft_strcmp(list->value, "$?"))
-			list->value = ft_itoa(e_status(0, 0));
-		else if (!ft_strcmp(list->value, "$"))
-			list->value = list->value;
-		else if (list->type == VAR)
-			list->value = g_env(list->value, c->envp);
-		else
-			list->value = ft_remove_quotes(c, list->value);
-		c->New_value = strj(c->New_value, list->value);
-		list = list->next;
-	}
-}
-
-void	init_expan(t_expand_ctx *ctx, char *s, t_env *envp)
-{
-	ctx->New_value = NULL;
+	ctx->new_value = NULL;
 	ctx->expand_state.index = 0;
 	ctx->expand_state.single_q = false;
 	ctx->expand_state.double_q = false;
-	ctx->Reset_flag = true;
+	ctx->reset_flag = true;
 	ctx->envp = envp;
-	ctx->source_string = s;
+	ctx->source_string = str;
 }
 
-char	*exp_val(char *s, t_env *envp)
+void	start_expand(t_expand_ctx *ctx)
 {
-	t_expand_ctx	ctx;
+	t_var	*var_list;
 
-	init_expan(&ctx, s, envp);
-	first_expand(&ctx);
-	return (ctx.New_value);
+	var_list = s_var(ctx->source_string);
+	while (var_list)
+	{
+		if (!ft_strcmp(var_list->value, "$?"))
+			var_list->value = ft_itoa(e_status(0, 0));
+		else if (!ft_strcmp(var_list->value, "$"))
+			var_list->value = var_list->value;
+		else if (var_list->type == VAR)
+			var_list->value = get_env(var_list->value, ctx->envp);
+		else
+			var_list->value = ft_remove_quotes(ctx, var_list->value);
+		ctx->new_value = strj(ctx->new_value, var_list->value);
+		var_list = var_list->next;
+	}
+}
+
+char	*exp_val(char *str, t_env *envp)
+{
+	t_expand_ctx (context);
+	init_expan(&context, str, envp);
+	start_expand(&context);
+	return (context.new_value);
+}
+
+bool	handle_quotes(char *str, t_expand *exp)
+{
+	if (str[exp->index] == '\'' && !exp->double_q)
+	{
+		exp->single_q = !exp->single_q;
+		exp->index++;
+		return (true);
+	}
+	else if (str[exp->index] == '\"' && !exp->single_q)
+	{
+		exp->double_q = !exp->double_q;
+		exp->index++;
+		return (true);
+	}
+	return (false);
 }

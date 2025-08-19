@@ -1,63 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split_command.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:54:13 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/17 21:10:30 by hbou-dou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_check_var(char	*s)
+int	ft_var_check(char *str)
 {
-	int	index;
-	int	single_q;
-	int	double_q;
-
-	single_q = 0;
-	double_q = 0;
-	index = 0;
-	while (s[index])
+	int (i) = 0, (single_q) = 0, (double_q) = 0;
+	while (str[i])
 	{
-		if (s[index] == '\'' && !double_q)
+		if (str[i] == '\'' && !double_q)
 			single_q = !single_q;
-		if (s[index] == '\"' && !single_q)
+		if (str[i] == '\"' && !single_q)
 			double_q = !double_q;
-		if (s[index] == '$' && s[index + 1] && id_check(s + index + 1) && !single_q)
+		if (str[i] == '$' && str[i + 1] && check_id(str + i + 1)
+			&& !single_q)
 			return (1);
-		index++;
+		i++;
 	}
 	return (0);
 }
 
-t_tokentype	ft_token_type(t_token *lst, char *string)
+int	heredoc_count(t_token *lst)
 {
-	t_token	*last;
-
-	last = ft_lstlast(lst);
-	if (last && (last->type == R_IN || last->type == R_OUT \
-	|| last->type == APPEND))
-		return (RED_FILE);
-	if (!string)
-		return (WORD);
-	if (ft_check_var(string))
-		return (EXPAN);
-	if (ft_check_pip(string))
-		return (PIPE);
-	if (ft_check_redirect_in(string))
-		return (R_IN);
-	if (ft_check_redirect_out(string))
-		return (R_OUT);
-	if (ft_check_append(string))
-		return (APPEND);
-	if (ft_check_heredoc(string))
-		return (HERDOC);
-	if (ft_check_quotes_type(string) == SINGLE)
-		return (SINGLE_Q);
-	if (ft_check_quotes_type(string) == DOUBLE)
-		return (DOUBLE_Q);
-	return (WORD);
-}
-
-int	count_heredoc(t_token *lst)
-{
-	t_token	*tmp;
-	int		count;
-
-	count = 0;
+	t_token *(tmp);
+	int (count) = 0;
 	tmp = lst;
 	while (tmp)
 	{
@@ -73,14 +48,40 @@ int	count_heredoc(t_token *lst)
 	return (0);
 }
 
+t_tokentype	ft_token_type(t_token *lst, char *str)
+{
+	t_token	*last;
+
+	last = ft_lstlast(lst);
+	if (last && (last->type == R_IN || last->type == R_OUT
+			|| last->type == APPEND))
+		return (RED_FILE);
+	if (!str)
+		return (WORD);
+	if (ft_var_check(str))
+		return (EXPAN);
+	if (ft_pip_check(str))
+		return (PIPE);
+	if (ft_redirect_in(str))
+		return (R_IN);
+	if (ft_redirect_out(str))
+		return (R_OUT);
+	if (ft_append(str))
+		return (APPEND);
+	if (ft_heredoc(str))
+		return (HERDOC);
+	if (ft_quotes_type(str) == SINGLE)
+		return (SINGLE_Q);
+	if (ft_quotes_type(str) == DOUBLE)
+		return (DOUBLE_Q);
+	return (WORD);
+}
+
 t_token	*s_cmd(char **cmd, t_env *envp)
 {
-	t_token		*lst;
-	int			i;
-	t_split_cmd	s;
-
-	lst = NULL;
-	i = 0;
+	t_token *(lst)	= NULL;
+	int (i) = 0;
+	t_split_cmd (s);
 	if (!cmd || !*cmd)
 		return (NULL);
 	while (cmd[i])
@@ -90,7 +91,7 @@ t_token	*s_cmd(char **cmd, t_env *envp)
 		ft_lstnew(&lst, s, envp, 0);
 		i++;
 	}
-	if (count_heredoc(lst))
+	if (heredoc_count(lst))
 		return (NULL);
 	return (lst);
 }

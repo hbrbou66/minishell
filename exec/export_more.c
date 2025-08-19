@@ -1,5 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_more.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:11:33 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/16 20:06:14 by hbou-dou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	check_imbguous(t_token **lst, t_exec *node)
+{
+	if (node->fd_in != 0)
+		close(node->fd_in);
+	if ((*lst)->next->ambg)
+	{
+		if (node->fd_in > 0)
+			close(node->fd_in);
+		if (node->fd_out > 2)
+			close(node->fd_out);
+		skip_till_pipe(lst);
+		return (ambigous_red(), 1);
+	}
+	return (0);
+}
 
 int	is_valid_export(char *opt)
 {
@@ -13,7 +40,7 @@ int	is_valid_export(char *opt)
 	{
 		if (!(ft_isalnum(opt[i]) || opt[i] == '_'))
 		{
-			if (opt[i] == '+' && opt[i +1] == '=')
+			if (opt[i] == '+' && opt[i + 1] == '=')
 				return (0);
 			else if (opt[i] == '=')
 				return (0);

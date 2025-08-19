@@ -1,6 +1,6 @@
 NAME = minishell
 
-CC = cc
+CC = cc -g3
 RM = rm -rf
 
 BREW_PATH = /opt/homebrew/opt/readline
@@ -29,12 +29,12 @@ OBJ = $(SRC:.c=.o)
 HEADER = minishell.h
 
 all: $(NAME)
-
+##flags: $(CFLAGS)
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $@ $(RDFLAGS)
-
+	$(CC) $(OBJ) -o $@ $(RDFLAGS)
+##flags: $(CFLAGS)
 %.o: %.c $(HEADER)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) -c $< -o $@
 
 clean:
 	$(RM) $(OBJ)

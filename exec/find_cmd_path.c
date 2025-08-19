@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   find_cmd_path.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/16 03:11:38 by abraji            #+#    #+#             */
+/*   Updated: 2025/08/17 12:42:29 by hbou-dou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -11,7 +22,7 @@ char	*search_cmd_in_path(char **arr, char *cmd)
 	{
 		tmp = strj(arr[i], "/");
 		tmp = strj(tmp, cmd);
-		if (access(tmp, F_OK | X_OK) == 0)
+		if (access(tmp, F_OK) == 0)
 			return (tmp);
 		i++;
 	}
@@ -27,7 +38,7 @@ char	*get_cmd_path(char *cmd, char *path)
 		exit(e_status(0, 0));
 	if (ft_strchr(cmd, '/'))
 	{
-		if (access(cmd, F_OK | X_OK) == 0)
+		if (access(cmd, F_OK) == 0)
 			return (cmd);
 		return (cmd_not_found(cmd), NULL);
 	}
@@ -36,13 +47,6 @@ char	*get_cmd_path(char *cmd, char *path)
 		return (NULL);
 	tmp = search_cmd_in_path(arr, cmd);
 	if (tmp)
-		return (tmp);
-	tmp = getcwd(NULL, 0);
-	path = tmp;
-	tmp = strj(tmp, "/");
-	free(path);
-	tmp = strj(tmp, cmd);
-	if (access(tmp, F_OK | X_OK) == 0 && !is_empty(cmd))
 		return (tmp);
 	return (cmd_not_found(cmd), NULL);
 }
