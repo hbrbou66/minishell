@@ -387,8 +387,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Authors
 
-- **Your Name** - [@yourusername](https://github.com/yourusername)
-- **Collaborator** - [@collaborator](https://github.com/collaborator)
+- **Your Name** - [@hbrbou66](https://github.com/hbrbou66)
+- **Collaborator** - [@raji73-cpu](https://github.com/raji73-cpu)
 
 ## Acknowledgments
 
