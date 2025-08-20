@@ -190,6 +190,26 @@ minishel/
 
 The minishell follows a modular architecture with clear separation of concerns, implementing a complete shell workflow from input parsing to command execution.
 
+### Workflow Overview
+![Full Workflow](./Full_Workflow/full_workflow_schema.svg)
+
+The complete shell workflow from input to execution, showing how user commands flow through the system.
+
+### Parsing Workflow
+![Parsing Workflow](./Full_Workflow/parsing_workflow_schema.svg)
+
+Details the tokenization and parsing process, including quote handling and variable expansion.
+
+### Execution Workflow
+![Execution Workflow](./Full_Workflow/execution_workflow_schema.svg)
+
+Shows how parsed commands are converted to executable structures and processed.
+
+### Heredoc Workflow
+![Heredoc Workflow](./Full_Workflow/heredoc_workflow_detailed.svg)
+
+Detailed flow for handling heredoc operations with proper signal management.
+
 ### Processing Pipeline
 
 1. **Input Reading**: Uses GNU Readline for command input with history support
