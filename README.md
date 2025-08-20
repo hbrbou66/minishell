@@ -188,27 +188,18 @@ minishel/
 
 ## Architecture & Code Flow
 
-The minishell follows a modular architecture with clear separation of concerns:
+The minishell follows a modular architecture with clear separation of concerns, implementing a complete shell workflow from input parsing to command execution.
 
-### Workflow Overview
-![Full Workflow](./Full%20Workflow/full_workflow_schema.svg)
+### Processing Pipeline
 
-The complete shell workflow from input to execution, showing how user commands flow through the system.
-
-### Parsing Workflow
-![Parsing Workflow](./Full%20Workflow/parsing_workflow_schema.svg)
-
-Details the tokenization and parsing process, including quote handling and variable expansion.
-
-### Execution Workflow
-![Execution Workflow](./Full%20Workflow/execution_workflow_schema.svg)
-
-Shows how parsed commands are converted to executable structures and processed.
-
-### Heredoc Workflow
-![Heredoc Workflow](./Full%20Workflow/heredoc_workflow_detailed.svg)
-
-Detailed flow for handling heredoc operations with proper signal management.
+1. **Input Reading**: Uses GNU Readline for command input with history support
+2. **Lexical Analysis**: Tokenizes input into meaningful components (words, operators, redirections)
+3. **Syntax Validation**: Checks for proper command structure and syntax errors
+4. **Variable Expansion**: Expands environment variables and handles quote processing
+5. **Command Parsing**: Converts tokens into executable command structures
+6. **Process Management**: Creates child processes and handles pipes/redirections
+7. **Execution**: Runs built-in commands or external programs via execve
+8. **Cleanup**: Manages memory and file descriptors
 
 ### Core Components
 
