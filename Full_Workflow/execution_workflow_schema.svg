@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1400" height="1200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1400" height="1200" fill="#f8f9fa" stroke="#dee2e6" stroke-width="2"/>
+  
+  <!-- Arrow marker definitions -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#007bff"/>
+    </marker>
+    <marker id="errorarrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#dc3545"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="700" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#212529">Minishell Execution Workflow Schema</text>
+
+  <!-- Main Flow Section -->
+  <g id="main-flow">
+    <!-- main function -->
+    <rect x="50" y="60" width="120" height="50" fill="#007bff" stroke="#0056b3" stroke-width="2" rx="5"/>
+    <text x="110" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">main()</text>
+    <text x="110" y="98" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Entry Point</text>
+    
+    <!-- main_exec -->
+    <rect x="200" y="60" width="120" height="50" fill="#007bff" stroke="#0056b3" stroke-width="2" rx="5"/>
+    <text x="260" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">main_exec()</text>
+    <text x="260" y="98" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Exec Controller</text>
+
+    <!-- parse_exec -->
+    <rect x="350" y="60" width="120" height="50" fill="#28a745" stroke="#1e7e34" stroke-width="2" rx="5"/>
+    <text x="410" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">parse_exec()</text>
+    <text x="410" y="98" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Parse Commands</text>
+
+    <!-- create_exec_list -->
+    <rect x="500" y="60" width="140" height="50" fill="#28a745" stroke="#1e7e34" stroke-width="2" rx="5"/>
+    <text x="570" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">create_exec_list()</text>
+    <text x="570" y="98" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Build Command List</text>
+
+    <!-- Decision: Builtin Check -->
+    <polygon points="720,60 770,85 720,110 670,85" fill="#ffc107" stroke="#e0a800" stroke-width="2"/>
+    <text x="720" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold">Builtin?</text>
+    <text x="720" y="92" text-anchor="middle" font-family="Arial, sans-serif" font-size="8">ft_is_builtins</text>
+
+    <!-- Decision: Pipeline Check -->
+    <polygon points="850,60 900,85 850,110 800,85" fill="#ffc107" stroke="#e0a800" stroke-width="2"/>
+    <text x="850" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold">Pipes?</text>
+    <text x="850" y="92" text-anchor="middle" font-family="Arial, sans-serif" font-size="8">check_list</text>
+  </g>
+
+  <!-- Builtin Commands Section -->
+  <g id="builtin-commands">
+    <text x="150" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#495057">Builtin Commands</text>
+    
+    <rect x="50" y="170" width="100" height="50" fill="#fd7e14" stroke="#e8590c" stroke-width="2" rx="5"/>
+    <text x="100" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">ft_echo()</text>
+    <text x="100" y="203" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Echo Command</text>
+    <text x="100" y="213" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">-n option</text>
+
+    <rect x="170" y="170" width="100" height="50" fill="#fd7e14" stroke="#e8590c" stroke-width="2" rx="5"/>
+    <text x="220" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">ft_cd()</text>
+    <text x="220" y="203" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Change Dir</text>
+    <text x="220" y="213" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">PWD/OLDPWD</text>
+
+    <rect x="290" y="170" width="100" height="50" fill="#fd7e14" stroke="#e8590c" stroke-width="2" rx="5"/>
+    <text x="340" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">ft_pwd()</text>
+    <text x="340" y="203" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Print Dir</text>
+    <text x="340" y="213" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">getcwd()</text>
+
+    <rect x="410" y="170" width="100" height="50" fill="#fd7e14" stroke="#e8590c" stroke-width="2" rx="5"/>
+    <text x="460" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">ft_env()</text>
+    <text x="460" y="203" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Show Env</text>
+    <text x="460" y="213" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Environment</text>
+
+    <rect x="50" y="240" width="100" height="50" fill="#fd7e14" stroke="#e8590c" stroke-width="2" rx="5"/>
+    <text x="100" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">ft_export()</text>
+    <text x="100" y="273" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Export Var</text>
+    <text x="100" y="283" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Set/Display</text>
+
+    <rect x="170" y="240" width="100" height="50" fill="#fd7e14" stroke="#e8590c" stroke-width="2" rx="5"/>
+    <text x="220" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">ft_unset()</text>
+    <text x="220" y="273" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Unset Var</text>
+    <text x="220" y="283" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Remove Env</text>
+
+    <rect x="290" y="240" width="100" height="50" fill="#dc3545" stroke="#c82333" stroke-width="2" rx="5"/>
+    <text x="340" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">ft_exit()</text>
+    <text x="340" y="273" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Exit Shell</text>
+    <text x="340" y="283" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Exit Code</text>
+  </g>
+
+  <!-- Pipeline and External Command Execution -->
+  <g id="pipeline-execution">
+    <text x="700" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#495057">External Command Execution</text>
+    
+    <!-- exec_list -->
+    <rect x="600" y="170" width="120" height="50" fill="#17a2b8" stroke="#117a8b" stroke-width="2" rx="5"/>
+    <text x="660" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">exec_list()</text>
+    <text x="660" y="203" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Execute List</text>
+    <text x="660" y="213" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Handle Pipes</text>
+
+    <!-- child_exec -->
+    <rect x="750" y="170" width="120" height="50" fill="#6f42c1" stroke="#59359a" stroke-width="2" rx="5"/>
+    <text x="810" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">child_exec()</text>
+    <text x="810" y="203" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Fork &amp; Exec</text>
+    <text x="810" y="213" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Process Mgmt</text>
+
+    <!-- find_path_cmd -->
+    <rect x="900" y="170" width="140" height="50" fill="#20c997" stroke="#1aa179" stroke-width="2" rx="5"/>
+    <text x="970" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">find_path_cmd()</text>
+    <text x="970" y="198" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">PATH Resolution</text>
+    <text x="970" y="208" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Command Search</text>
+    <text x="970" y="218" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">/bin:/usr/bin</text>
+
+    <!-- execve -->
+    <rect x="1070" y="170" width="120" height="50" fill="#e83e8c" stroke="#d91a72" stroke-width="2" rx="5"/>
+    <text x="1130" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">execve()</text>
+    <text x="1130" y="203" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">System Call</text>
+    <text x="1130" y="213" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Execute Prog</text>
+  </g>
+
+  <!-- I/O Redirection Section -->
+  <g id="redirection-section">
+    <text x="700" y="315" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#495057">I/O Redirection &amp; Pipeline Management</text>
+    
+    <!-- Input Redirection -->
+    <rect x="450" y="330" width="120" height="60" fill="#28a745" stroke="#1e7e34" stroke-width="2" rx="5"/>
+    <text x="510" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Input &lt;</text>
+    <text x="510" y="363" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Read from File</text>
+    <text x="510" y="373" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">stdin redirect</text>
+    <text x="510" y="383" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">open() &amp; dup2()</text>
+
+    <!-- Output Redirection -->
+    <rect x="590" y="330" width="120" height="60" fill="#28a745" stroke="#1e7e34" stroke-width="2" rx="5"/>
+    <text x="650" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Output &gt;</text>
+    <text x="650" y="363" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Write to File</text>
+    <text x="650" y="373" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">stdout redirect</text>
+    <text x="650" y="383" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">truncate mode</text>
+
+    <!-- Append Redirection -->
+    <rect x="730" y="330" width="120" height="60" fill="#28a745" stroke="#1e7e34" stroke-width="2" rx="5"/>
+    <text x="790" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Append &gt;&gt;</text>
+    <text x="790" y="363" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Append File</text>
+    <text x="790" y="373" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">stdout redirect</text>
+    <text x="790" y="383" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">append mode</text>
+
+    <!-- Heredoc -->
+    <rect x="870" y="330" width="120" height="60" fill="#6610f2" stroke="#520dc2" stroke-width="2" rx="5"/>
+    <text x="930" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Heredoc &lt;&lt;</text>
+    <text x="930" y="363" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Here Document</text>
+    <text x="930" y="373" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Inline Input</text>
+    <text x="930" y="383" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Delimiter</text>
+
+    <!-- Pipe Management -->
+    <rect x="1010" y="330" width="120" height="60" fill="#17a2b8" stroke="#117a8b" stroke-width="2" rx="5"/>
+    <text x="1070" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Pipes |</text>
+    <text x="1070" y="363" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">IPC Channel</text>
+    <text x="1070" y="373" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">pipe() syscall</text>
+    <text x="1070" y="383" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">fd[0] fd[1]</text>
+  </g>
+
+  <!-- Error Handling Section -->
+  <g id="error-handling">
+    <text x="700" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#495057">Error Handling &amp; Status Management</text>
+    
+    <!-- execve_error -->
+    <rect x="500" y="470" width="140" height="60" fill="#dc3545" stroke="#c82333" stroke-width="2" rx="5"/>
+    <text x="570" y="490" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">execve_error()</text>
+    <text x="570" y="503" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Exec Failures</text>
+    <text x="570" y="513" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Command Not Found</text>
+    <text x="570" y="523" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Exit Status 127</text>
+
+    <!-- syntax_error -->
+    <rect x="660" y="470" width="140" height="60" fill="#dc3545" stroke="#c82333" stroke-width="2" rx="5"/>
+    <text x="730" y="490" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">syntax_error()</text>
+    <text x="730" y="503" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Parse Errors</text>
+    <text x="730" y="513" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Invalid Syntax</text>
+    <text x="730" y="523" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Exit Status 2</text>
+
+    <!-- Exit Status -->
+    <rect x="820" y="470" width="140" height="60" fill="#fd7e14" stroke="#e8590c" stroke-width="2" rx="5"/>
+    <text x="890" y="490" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Exit Status</text>
+    <text x="890" y="503" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Status Codes</text>
+    <text x="890" y="513" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">0=Success</text>
+    <text x="890" y="523" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">1-255=Error</text>
+  </g>
+
+  <!-- Flow Arrows -->
+  <g id="main-arrows">
+    <!-- Main execution flow -->
+    <line x1="170" y1="85" x2="200" y2="85" stroke="#007bff" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <line x1="320" y1="85" x2="350" y2="85" stroke="#007bff" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <line x1="470" y1="85" x2="500" y2="85" stroke="#007bff" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <line x1="640" y1="85" x2="670" y2="85" stroke="#007bff" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <line x1="770" y1="85" x2="800" y2="85" stroke="#007bff" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+    <!-- Decision branches -->
+    <line x1="720" y1="110" x2="300" y2="170" stroke="#ffc107" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="450" y="135" font-family="Arial, sans-serif" font-size="10" fill="#e0a800">YES</text>
+    
+    <line x1="850" y1="110" x2="660" y2="170" stroke="#ffc107" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="750" y="135" font-family="Arial, sans-serif" font-size="10" fill="#e0a800">YES</text>
+
+    <!-- External command flow -->
+    <line x1="720" y1="195" x2="750" y2="195" stroke="#17a2b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <line x1="870" y1="195" x2="900" y2="195" stroke="#17a2b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <line x1="1040" y1="195" x2="1070" y2="195" stroke="#17a2b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+    <!-- I/O redirection flows -->
+    <line x1="810" y1="220" x2="650" y2="330" stroke="#28a745" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowhead)"/>
+    <line x1="970" y1="220" x2="930" y2="330" stroke="#6610f2" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowhead)"/>
+    <line x1="660" y1="220" x2="1070" y2="330" stroke="#17a2b8" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowhead)"/>
+
+    <!-- Error handling flows -->
+    <line x1="1130" y1="220" x2="570" y2="470" stroke="#dc3545" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#errorarrow)"/>
+    <line x1="410" y1="110" x2="730" y2="470" stroke="#dc3545" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#errorarrow)"/>
+    <line x1="890" y1="390" x2="890" y2="470" stroke="#fd7e14" stroke-width="2" marker-end="url(#arrowhead)"/>
+  </g>
+
+  <!-- Key Data Structures -->
+  <g id="data-structures">
+    <text x="700" y="595" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#495057">Key Data Structures &amp; Memory Management</text>
+    
+    <rect x="100" y="610" width="200" height="90" fill="#e83e8c" stroke="#d91a72" stroke-width="2" rx="5" fill-opacity="0.1"/>
+    <text x="200" y="630" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#d91a72">t_cmd_list Structure</text>
+    <text x="110" y="645" font-family="Arial, sans-serif" font-size="10" fill="#495057">• cmd: char* (command name)</text>
+    <text x="110" y="658" font-family="Arial, sans-serif" font-size="10" fill="#495057">• args: char** (argument array)</text>
+    <text x="110" y="671" font-family="Arial, sans-serif" font-size="10" fill="#495057">• redirections: t_redir*</text>
+    <text x="110" y="684" font-family="Arial, sans-serif" font-size="10" fill="#495057">• next: t_cmd_list* (pipeline)</text>
+    <text x="110" y="697" font-family="Arial, sans-serif" font-size="10" fill="#495057">• exit_status: int</text>
+
+    <rect x="320" y="610" width="200" height="90" fill="#20c997" stroke="#1aa179" stroke-width="2" rx="5" fill-opacity="0.1"/>
+    <text x="420" y="630" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1aa179">Environment Management</text>
+    <text x="330" y="645" font-family="Arial, sans-serif" font-size="10" fill="#495057">• envp: char** (environment vars)</text>
+    <text x="330" y="658" font-family="Arial, sans-serif" font-size="10" fill="#495057">• PATH: command search paths</text>
+    <text x="330" y="671" font-family="Arial, sans-serif" font-size="10" fill="#495057">• PWD/OLDPWD: directories</text>
+    <text x="330" y="684" font-family="Arial, sans-serif" font-size="10" fill="#495057">• Export list: declared vars</text>
+    <text x="330" y="697" font-family="Arial, sans-serif" font-size="10" fill="#495057">• Variable expansion</text>
+
+    <rect x="540" y="610" width="200" height="90" fill="#17a2b8" stroke="#117a8b" stroke-width="2" rx="5" fill-opacity="0.1"/>
+    <text x="640" y="630" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#117a8b">Pipeline &amp; Process</text>
+    <text x="550" y="645" font-family="Arial, sans-serif" font-size="10" fill="#495057">• pipe_fds[2]: read/write ends</text>
+    <text x="550" y="658" font-family="Arial, sans-serif" font-size="10" fill="#495057">• stdin/stdout: file descriptors</text>
+    <text x="550" y="671" font-family="Arial, sans-serif" font-size="10" fill="#495057">• pid: process IDs</text>
+    <text x="550" y="684" font-family="Arial, sans-serif" font-size="10" fill="#495057">• exit_status: command results</text>
+    <text x="550" y="697" font-family="Arial, sans-serif" font-size="10" fill="#495057">• signal handling</text>
+
+    <rect x="760" y="610" width="200" height="90" fill="#28a745" stroke="#1e7e34" stroke-width="2" rx="5" fill-opacity="0.1"/>
+    <text x="860" y="630" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1e7e34">I/O &amp; Redirections</text>
+    <text x="770" y="645" font-family="Arial, sans-serif" font-size="10" fill="#495057">• file descriptors: stdin/out/err</text>
+    <text x="770" y="658" font-family="Arial, sans-serif" font-size="10" fill="#495057">• input/output files: paths</text>
+    <text x="770" y="671" font-family="Arial, sans-serif" font-size="10" fill="#495057">• append mode: &gt;&gt; handling</text>
+    <text x="770" y="684" font-family="Arial, sans-serif" font-size="10" fill="#495057">• heredoc: temp storage</text>
+    <text x="770" y="697" font-family="Arial, sans-serif" font-size="10" fill="#495057">• dup2(): fd redirection</text>
+
+    <rect x="980" y="610" width="200" height="90" fill="#fd7e14" stroke="#e8590c" stroke-width="2" rx="5" fill-opacity="0.1"/>
+    <text x="1080" y="630" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#e8590c">Memory &amp; Cleanup</text>
+    <text x="990" y="645" font-family="Arial, sans-serif" font-size="10" fill="#495057">• malloc/free: dynamic allocation</text>
+    <text x="990" y="658" font-family="Arial, sans-serif" font-size="10" fill="#495057">• string arrays: argv cleanup</text>
+    <text x="990" y="671" font-family="Arial, sans-serif" font-size="10" fill="#495057">• fd cleanup: close unused</text>
+    <text x="990" y="684" font-family="Arial, sans-serif" font-size="10" fill="#495057">• signal restoration</text>
+    <text x="990" y="697" font-family="Arial, sans-serif" font-size="10" fill="#495057">• exit status propagation</text>
+  </g>
+
+  <!-- Execution Flow Details -->
+  <g id="execution-details">
+    <text x="350" y="760" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#495057">Step-by-Step Execution Flow</text>
+    
+    <rect x="50" y="780" width="600" height="160" fill="#007bff" stroke="#0056b3" stroke-width="2" rx="5" fill-opacity="0.05"/>
+    <text x="60" y="800" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#0056b3">Main Execution Pipeline:</text>
+    <text x="70" y="820" font-family="Arial, sans-serif" font-size="11" fill="#495057">1. main() → main_exec() - Initialize execution environment</text>
+    <text x="70" y="835" font-family="Arial, sans-serif" font-size="11" fill="#495057">2. parse_exec() → create_exec_list() - Build command structures</text>
+    <text x="70" y="850" font-family="Arial, sans-serif" font-size="11" fill="#495057">3. ft_is_builtins() - Determine execution type (builtin vs external)</text>
+    <text x="70" y="865" font-family="Arial, sans-serif" font-size="11" fill="#495057">4. Setup I/O redirections (&lt;, &gt;, &gt;&gt;, &lt;&lt;) and pipes (|)</text>
+    <text x="70" y="880" font-family="Arial, sans-serif" font-size="11" fill="#495057">5. exec_list() - Handle pipeline execution or single command</text>
+    <text x="70" y="895" font-family="Arial, sans-serif" font-size="11" fill="#495057">6. child_exec() - Fork child processes for external commands</text>
+    <text x="70" y="910" font-family="Arial, sans-serif" font-size="11" fill="#495057">7. find_path_cmd() → execve() - Path resolution and execution</text>
+    <text x="70" y="925" font-family="Arial, sans-serif" font-size="11" fill="#495057">8. Error handling, cleanup, and exit status management</text>
+
+    <text x="1050" y="760" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#495057">Process &amp; Signal Management</text>
+    
+    <rect x="750" y="780" width="600" height="160" fill="#6f42c1" stroke="#59359a" stroke-width="2" rx="5" fill-opacity="0.05"/>
+    <text x="760" y="800" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#59359a">Child Process Lifecycle:</text>
+    <text x="770" y="820" font-family="Arial, sans-serif" font-size="11" fill="#495057">• fork() - Create child process for command execution</text>
+    <text x="770" y="835" font-family="Arial, sans-serif" font-size="11" fill="#495057">• Signal setup - Handle SIGINT, SIGQUIT, SIGTERM properly</text>
+    <text x="770" y="850" font-family="Arial, sans-serif" font-size="11" fill="#495057">• File descriptor management - dup2() for redirections</text>
+    <text x="770" y="865" font-family="Arial, sans-serif" font-size="11" fill="#495057">• Environment preparation - envp setup and PATH resolution</text>
+    <text x="770" y="880" font-family="Arial, sans-serif" font-size="11" fill="#495057">• Command execution - execve() system call</text>
+    <text x="770" y="895" font-family="Arial, sans-serif" font-size="11" fill="#495057">• Error handling - execve_error() for failed executions</text>
+    <text x="770" y="910" font-family="Arial, sans-serif" font-size="11" fill="#495057">• Cleanup and exit - File descriptors, memory, exit status</text>
+    <text x="770" y="925" font-family="Arial, sans-serif" font-size="11" fill="#495057">• Parent wait() - Collect child exit status and cleanup</text>
+  </g>
+
+  <!-- Additional Key Points -->
+  <g id="key-points">
+    <text x="700" y="995" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#495057">Critical Execution Points &amp; Best Practices</text>
+    
+    <rect x="50" y="1010" width="550" height="130" fill="#28a745" stroke="#1e7e34" stroke-width="2" rx="5" fill-opacity="0.05"/>
+    <text x="60" y="1030" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1e7e34">Memory &amp; Resource Management:</text>
+    <text x="70" y="1050" font-family="Arial, sans-serif" font-size="10" fill="#495057">• All dynamically allocated memory is properly freed after use</text>
+    <text x="70" y="1065" font-family="Arial, sans-serif" font-size="10" fill="#495057">• File descriptors are closed when no longer needed (avoid fd leaks)</text>
+    <text x="70" y="1080" font-family="Arial, sans-serif" font-size="10" fill="#495057">• Child processes are properly waited for to avoid zombies</text>
+    <text x="70" y="1095" font-family="Arial, sans-serif" font-size="10" fill="#495057">• Signal handlers are restored to default state after execution</text>
+    <text x="70" y="1110" font-family="Arial, sans-serif" font-size="10" fill="#495057">• Environment variables are managed without system leaks</text>
+    <text x="70" y="1125" font-family="Arial, sans-serif" font-size="10" fill="#495057">• Pipeline coordination ensures proper process communication</text>
+
+    <rect x="620" y="1010" width="550" height="130" fill="#dc3545" stroke="#c82333" stroke-width="2" rx="5" fill-opacity="0.05"/>
+    <text x="630" y="1030" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#c82333">Error Handling &amp; Edge Cases:</text>
+    <text x="640" y="1050" font-family="Arial, sans-serif" font-size="10" fill="#495057">• Command not found (127), permission denied (126) exit codes</text>
+    <text x="640" y="1065" font-family="Arial, sans-serif" font-size="10" fill="#495057">• Syntax errors are caught and reported with appropriate status</text>
+    <text x="640" y="1080" font-family="Arial, sans-serif" font-size="10" fill="#495057">• Signal interruption handling preserves shell state</text>
+    <text x="640" y="1095" font-family="Arial, sans-serif" font-size="10" fill="#495057">• Pipeline failures propagate correct exit status</text>
+    <text x="640" y="1110" font-family="Arial, sans-serif" font-size="10" fill="#495057">• I/O redirection errors are handled gracefully</text>
+    <text x="640" y="1125" font-family="Arial, sans-serif" font-size="10" fill="#495057">• Invalid builtin arguments result in proper error messages</text>
+  </g>
+
+</svg>
