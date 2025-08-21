@@ -1,7 +1,6 @@
 # Minishell
 
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
-![License](https://img.shields.io/badge/license-MIT-blue)
 ![Language](https://img.shields.io/badge/language-C-blue)
 ![1337 School](https://img.shields.io/badge/1337-Rabat-000000)
 
@@ -18,7 +17,6 @@ A minimal Unix shell implementation in C, designed to replicate the behavior of 
 - [Built-in Commands](#built-in-commands)
 - [Examples](#examples)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Project Overview
 
@@ -379,16 +377,12 @@ echo "command" | ./minishell
 echo "command" | bash
 ```
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ---
 
 ## Authors
 
-- **Your Name** - [@hbrbou66](https://github.com/hbrbou66)
-- **Collaborator** - [@raji73-cpu](https://github.com/raji73-cpu)
+- Hamza Boudouar - [@hbrbou66](https://github.com/hbrbou66)
+- Abderrazzak Raji - [@raji73-cpu](https://github.com/raji73-cpu)
 
 ## Acknowledgments
 

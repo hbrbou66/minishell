@@ -6,7 +6,7 @@
 /*   By: hbou-dou <hbou-dou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 03:10:51 by abraji            #+#    #+#             */
-/*   Updated: 2025/08/19 17:47:04 by hbou-dou         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:00:14 by hbou-dou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*prepare_oldpwd(t_env **env)
 		oldpwd = ft_strdup2(env_pwd);
 	else
 	{
-		if (env_pwd[0] == '\0' && env_pwd)
+		if (env_pwd && env_pwd[0] == '\0')
 			update_oldpwd(env, "");
 		else
 			update_oldpwd(env, oldpwd);
